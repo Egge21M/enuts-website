@@ -9,10 +9,12 @@ function RootRoute() {
         <NetworkAnimation />
       </div>
 
-      {/* Scrollable content area */}
-      <div className="relative z-0">
-        <Outlet />
-      </div>
+      {/* Scrollable content area with centered layout */}
+      <main className="relative z-10 min-h-screen flex items-center justify-center">
+        <div className="px-6 py-12 md:px-12 md:py-16 w-full max-w-xl lg:max-w-2xl">
+          <Outlet />
+        </div>
+      </main>
     </div>
   );
 }
