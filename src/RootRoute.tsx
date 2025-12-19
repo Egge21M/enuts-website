@@ -1,5 +1,6 @@
 import { Outlet } from "react-router";
 import { NetworkAnimation } from "./components/NetworkAnimation";
+import { Toaster } from "./components/ui/sonner";
 
 function RootRoute() {
   return (
@@ -15,6 +16,7 @@ function RootRoute() {
           <Outlet />
         </div>
       </main>
+      <Toaster position="top-center" />
     </div>
   );
 }
