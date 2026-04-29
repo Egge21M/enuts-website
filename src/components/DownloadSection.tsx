@@ -9,7 +9,7 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
-import { Download, TestTube } from "lucide-react";
+import { TestTube } from "lucide-react";
 
 function DownloadSection() {
   const [accepted, setAccepted] = useState(false);
@@ -45,16 +45,16 @@ function DownloadSection() {
           <TestTube />
           Join the TestFlight
         </Button>
-        <Button
-          className="w-full"
-          disabled={!accepted}
-          onClick={() =>
-            window.open("https://github.com/cashubtc/eNuts", "_blank")
-          }
-        >
-          <Download />
-          Get the APK
-        </Button>
+        {/* <Button */}
+        {/*   className="w-full" */}
+        {/*   disabled={!accepted} */}
+        {/*   onClick={() => */}
+        {/*     window.open("https://github.com/cashubtc/eNuts", "_blank") */}
+        {/*   } */}
+        {/* > */}
+        {/*   <Download /> */}
+        {/*   Get the APK */}
+        {/* </Button> */}
       </CardFooter>
     </Card>
   );
