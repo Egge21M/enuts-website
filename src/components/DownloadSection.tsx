@@ -1,62 +1,79 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
-import { TestTube } from "lucide-react";
+import { ArrowUpRight, Github, TestTube } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-function DownloadSection() {
+interface DownloadSectionProps {
+  className?: string;
+  compact?: boolean;
+}
+
+function DownloadSection({ className, compact = false }: DownloadSectionProps) {
   const [accepted, setAccepted] = useState(false);
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Join the eNuts alpha test</CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col">
-        <div className="flex items-start gap-2">
-          <Checkbox
-            onCheckedChange={setAccepted}
-            id="accept-terms"
-            className="mt-1 cursor-pointer"
-          />
-          <Label
-            htmlFor="accept-terms"
-            className="leading-relaxed cursor-pointer"
-          >
-            I acknowledge that eNuts is alpha software and I will be using it at
-            my own risk
-          </Label>
-        </div>
-      </CardContent>
-      <CardFooter className="flex flex-col gap-2">
+    <div
+      className={cn(
+        "download-cta",
+        compact && "download-cta-compact",
+        className
+      )}
+    >
+      <div className="space-y-1">
+        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-primary/90">
+          Alpha test
+        </p>
+        {!compact && (
+          <p className="max-w-md text-sm leading-6 text-white/62">
+            TestFlight access is limited while the rebuild hardens.
+          </p>
+        )}
+      </div>
+
+      <div className="flex items-start gap-3">
+        <Checkbox
+          onCheckedChange={setAccepted}
+          id={compact ? "accept-terms-compact" : "accept-terms"}
+          className="mt-1 cursor-pointer border-white/24 bg-white/8"
+        />
+        <Label
+          htmlFor={compact ? "accept-terms-compact" : "accept-terms"}
+          className="max-w-md cursor-pointer text-sm leading-6 text-white/68"
+        >
+          I understand this alpha is used at my own risk.
+        </Label>
+      </div>
+
+      <div className="download-actions">
         <Button
-          className="w-full"
+          className="download-button download-button-primary"
           disabled={!accepted}
           onClick={() =>
             window.open("https://testflight.apple.com/join/tuY72JE3", "_blank")
           }
         >
-          <TestTube />
-          Join the TestFlight
+          <span className="inline-flex items-center gap-2">
+            <TestTube />
+            iOS TestFlight
+          </span>
+          <ArrowUpRight className="opacity-70" />
         </Button>
-        {/* <Button */}
-        {/*   className="w-full" */}
-        {/*   disabled={!accepted} */}
-        {/*   onClick={() => */}
-        {/*     window.open("https://github.com/cashubtc/eNuts", "_blank") */}
-        {/*   } */}
-        {/* > */}
-        {/*   <Download /> */}
-        {/*   Get the APK */}
-        {/* </Button> */}
-      </CardFooter>
-    </Card>
+        <Button
+          className="download-button download-button-secondary"
+          disabled={!accepted}
+          onClick={() =>
+            window.open("https://github.com/cashubtc/eNuts/releases", "_blank")
+          }
+        >
+          <span className="inline-flex items-center gap-2">
+            <Github />
+            Android releases
+          </span>
+          <ArrowUpRight className="opacity-70" />
+        </Button>
+      </div>
+    </div>
   );
 }
 

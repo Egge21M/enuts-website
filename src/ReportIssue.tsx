@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
 import {
   Field,
   FieldDescription,
@@ -13,6 +12,7 @@ import { Input } from "./components/ui/input";
 import { Button } from "./components/ui/button";
 import { publishIssueReportEvent } from "./lib/nostr";
 import { toast } from "sonner";
+import { Send } from "lucide-react";
 
 function ReportIssue() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -56,82 +56,113 @@ function ReportIssue() {
     }
   }
   return (
-    <div className="flex flex-col items-center justify-center gap-8">
-      <h1 className="text-5xl md:text-6xl font-bold text-center">
-        REPORT AN ISSUE
-      </h1>
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Let us know what's wrong</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form ref={formRef} onSubmit={handleSubmit}>
-            <FieldGroup>
-              <FieldSet>
-                <Field>
-                  <FieldLabel>
-                    Issue <span className="text-destructive">*</span>
-                  </FieldLabel>
-                  <FieldDescription>
-                    Describe the issue you're experiencing
-                  </FieldDescription>
-                  <Textarea
-                    name="issue"
-                    placeholder="There are nuts in my phone"
-                    required
-                  />
-                </Field>
-              </FieldSet>
-              <FieldSet>
-                <FieldLabel>
-                  Platform <span className="text-destructive">*</span>
+    <div className="mx-auto grid min-h-screen max-w-6xl gap-10 px-5 pb-20 pt-28 text-white md:grid-cols-[0.8fr_1fr] md:px-8 md:pt-36">
+      <div className="flex flex-col justify-between gap-12">
+        <div>
+          <p className="section-kicker">Support</p>
+          <h1 className="mt-3 text-5xl font-bold leading-none tracking-normal md:text-7xl">
+            Report an issue
+          </h1>
+          <p className="mt-5 max-w-md text-lg leading-8 text-white/64">
+            Send a concise bug report to the eNuts team with the device context
+            needed to reproduce it.
+          </p>
+        </div>
+        <div className="hidden border-l border-primary/40 pl-5 text-sm leading-6 text-white/54 md:block">
+          Reports are published through the configured Nostr relay path in this
+          build.
+        </div>
+      </div>
+
+      <form
+        ref={formRef}
+        onSubmit={handleSubmit}
+        className="rounded-lg border border-white/12 bg-white/[0.045] p-5 shadow-2xl shadow-black/20 backdrop-blur-xl md:p-7"
+      >
+        <FieldGroup>
+          <FieldSet>
+            <Field>
+              <FieldLabel className="text-white">
+                Issue <span className="text-destructive">*</span>
+              </FieldLabel>
+              <FieldDescription className="text-white/52">
+                Describe what happened and what you expected instead.
+              </FieldDescription>
+              <Textarea
+                name="issue"
+                placeholder="The wallet closes after I scan a payment request."
+                className="min-h-36 border-white/14 bg-black/22 text-white placeholder:text-white/32"
+                required
+              />
+            </Field>
+          </FieldSet>
+          <FieldSet>
+            <FieldLabel className="text-white">
+              Platform <span className="text-destructive">*</span>
+            </FieldLabel>
+            <FieldDescription className="text-white/52">
+              The operating system you're using.
+            </FieldDescription>
+            <RadioGroup name="platform" required className="grid grid-cols-2 gap-3">
+              <Field
+                orientation="horizontal"
+                className="rounded-md border border-white/12 bg-black/18 px-3 py-3"
+              >
+                <RadioGroupItem value="iOS" id="iOS" />
+                <FieldLabel htmlFor="iOS" className="font-normal text-white">
+                  iOS
                 </FieldLabel>
-                <FieldDescription>
-                  The operating system you're using
-                </FieldDescription>
-                <RadioGroup name="platform" required>
-                  <Field orientation="horizontal">
-                    <RadioGroupItem value="iOS" id="iOS" />
-                    <FieldLabel htmlFor="iOS" className="font-normal">
-                      iOS
-                    </FieldLabel>
-                  </Field>
-                  <Field orientation="horizontal">
-                    <RadioGroupItem value="Android" id="Android" />
-                    <FieldLabel htmlFor="Android" className="font-normal">
-                      Android
-                    </FieldLabel>
-                  </Field>
-                </RadioGroup>
-              </FieldSet>
-              <FieldSet>
-                <Field>
-                  <FieldLabel>OS Version</FieldLabel>
-                  <FieldDescription>
-                    Optional: e.g., iOS 17.2, Android 14
-                  </FieldDescription>
-                  <Input name="osVersion" placeholder="Enter your OS version" />
-                </Field>
-              </FieldSet>
-              <FieldSet>
-                <Field>
-                  <FieldLabel>Device Model</FieldLabel>
-                  <FieldDescription>
-                    Optional: e.g., iPhone 15 Pro, Samsung Galaxy S24
-                  </FieldDescription>
-                  <Input
-                    name="deviceModel"
-                    placeholder="Enter your device model"
-                  />
-                </Field>
-              </FieldSet>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                Submit Report
-              </Button>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
+              </Field>
+              <Field
+                orientation="horizontal"
+                className="rounded-md border border-white/12 bg-black/18 px-3 py-3"
+              >
+                <RadioGroupItem value="Android" id="Android" />
+                <FieldLabel
+                  htmlFor="Android"
+                  className="font-normal text-white"
+                >
+                  Android
+                </FieldLabel>
+              </Field>
+            </RadioGroup>
+          </FieldSet>
+          <FieldSet>
+            <Field>
+              <FieldLabel className="text-white">OS Version</FieldLabel>
+              <FieldDescription className="text-white/52">
+                Optional: e.g., iOS 17.2, Android 14.
+              </FieldDescription>
+              <Input
+                name="osVersion"
+                placeholder="Enter your OS version"
+                className="border-white/14 bg-black/22 text-white placeholder:text-white/32"
+              />
+            </Field>
+          </FieldSet>
+          <FieldSet>
+            <Field>
+              <FieldLabel className="text-white">Device Model</FieldLabel>
+              <FieldDescription className="text-white/52">
+                Optional: e.g., iPhone 15 Pro, Samsung Galaxy S24.
+              </FieldDescription>
+              <Input
+                name="deviceModel"
+                placeholder="Enter your device model"
+                className="border-white/14 bg-black/22 text-white placeholder:text-white/32"
+              />
+            </Field>
+          </FieldSet>
+          <Button
+            type="submit"
+            className="h-12 w-full justify-between rounded-md bg-primary px-4 text-sm font-semibold text-[#06120f] hover:bg-primary/90"
+            disabled={isLoading}
+          >
+            Submit report
+            <Send />
+          </Button>
+        </FieldGroup>
+      </form>
     </div>
   );
 }
